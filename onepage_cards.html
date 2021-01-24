@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang='it'>
+<head>
+    <meta charset="utf-8">
+    <title>Prova</title>
+    <style>
+        @keyframes grow { from {font-size: 10px;color: black;} to {font-size:40px;color:blue;} }
+        @keyframes move { 0% {left:80%;color:red;} 50% {left:20%;color:green;} 100% {left:80%;color:blue;} }
+        div { display: none; }
+        h3.topic { animation-name: grow; animation-duration: 6s; animation-fill-mode: forwards;}
+        h3.title { position: relative; animation-name: move; animation-duration: 3s; animation-fill-mode: forwards; animation-iteration-count: 2;}
+    </style>
+    <script>
+        function showPage(page) {
+            document.querySelectorAll('div.card').forEach(div => {
+                div.style.display = 'none';
+            })
+            document.querySelector(`#${page}`).style.display = 'block';
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('button').forEach(button => {
+                button.onclick = function() {
+                    showPage(this.dataset.page);
+                }
+            })
+        })
+    </script>
+</head>
+<body>
+    <h3 class='title'>Onepage with cards</h3>
+    <button data-page='page1'>Page 1</button>
+    <button data-page='page2'>Page 2</button>
+    <button data-page='page3'>Page 3</button>
+    <h3 class='topic'>Learn by Demo</h3>
+    <div id='page1' class='card'>
+        <h1>This is Page 1</h1>
+    </div>
+    <div id='page2' class='card'>
+        <h1>This is Page 2</h1>
+    </div>
+    <div id='page3' class='card'>
+        <h1>This is Page 3</h1>
+    </div>
+</body>
+</html>

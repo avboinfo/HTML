@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+
+
+<head>
+  <title>Draw stamps of pictures on Canvas - using framework</title>
+  <link rel="stylesheet" type="text/css" href="myGaming.css" />
+  <script src="myGamingFramework.js"></script>
+</head>
+
+<body onload="init()">
+
+<h3>Disegna immagini sulla tela</h3>
+
+<button onclick="stamp()">Stamp</button>
+
+
+</body>
+<script>
+var gar, imgOne, imgTwo;
+function init() {
+  gar = new GameArea(800, 600);
+  gar.display();
+  imgOne = new GameImage("mickeymouse.png", gar);
+  imgTwo = new GameImage("snoopy.png", gar);
+  gar.canvas.addEventListener("click", printImage);
+}
+function stamp() {
+	for (i=0; i<10; i++) {
+		imgOne.draw(i*50,i*50,120,120);
+	}
+}
+function printImage(e) {
+	if (e.ctrlKey)
+		imgTwo.draw(e.clientX, e.clientY, 100, 100);
+	else
+		imgOne.draw(e.clientX, e.clientY, 100, 100);
+}
+
+</script>
+</html>

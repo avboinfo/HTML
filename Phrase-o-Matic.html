@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+
+
+
+
+<body onload="makePhrase()">
+
+  <h3>Phrase-o-Matic</h3>
+  <div id="thePhrase"></div>
+
+<script>
+var words1 = ["Il gatto", "La mucca", "L'oca"];
+var words2 = ["mangia", "guarda", "vuole"];
+var words3 = ["il latte", "il mais", "l'erba"];
+function chooseOneOf(v){
+  var idx = Math.floor( Math.random() * v.length );
+  return v[idx];
+}
+function makePhrase() {
+  var phrase = chooseOneOf(words1) + " " + chooseOneOf(words2) + " " + chooseOneOf(words3);
+  document.getElementById("thePhrase").innerHTML = phrase;
+}
+</script>
+</html>

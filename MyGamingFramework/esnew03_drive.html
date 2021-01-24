@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Drive the paddle</title>
+  <link rel="stylesheet" type="text/css" href="myGaming.css" />
+  <script src="myGamingFramework.js"></script>
+</head>
+
+<body onload="init()">
+
+<div>
+Wall game
+<button onclick="ball.bounce();">Start</button>
+<button onclick="p.goLeft();">&larr;</button>
+<button onclick="p.goUp();">&uarr;</button>
+<button onclick="p.goDown();">&darr;</button>
+<button onclick="p.goRight();">&rarr;</button>
+<button onclick="gar.download();">Download</button>
+</div>
+
+
+</body>
+
+<script>
+var gar, p, ball;
+function init() {
+  gar = new GameArea(800, 600);
+  gar.display();
+  p = new GamePiece(80, 20, gar, "blue", 10);
+  p.draw(360,559);
+
+  ball = new GameBall(10, gar);
+  ball.draw(400,300);
+  
+  gar.canvas.addEventListener("click", makeBlock);
+  document.addEventListener("keydown", driveRacket);
+
+  for (j=1; j<4; j++) {
+    for (i=1; i<12; i++) {
+		b = new GamePiece(30, 30, gar, "maroon");
+		b.draw( i*60, j*40 );
+	}
+  }
+  requestAnimationFrame(animate);
+}
+    
+function makeBlock(e) {
+    var newBlock = new GamePiece(30, 30, gar, "blue");
+    newBlock.draw(e.offsetX-15, e.offsetY-15);
+}
+
+function driveRacket( e ) {
+  if (e.key=="ArrowRight") p.goRight();
+  else if (e.key=="ArrowLeft") p.goLeft();
+  else if (e.key=="ArrowUp") p.goUp();
+  else if (e.key=="ArrowDown") p.goDown();
+}
+
+function animate( currentTime ) {
+  ball.bounce();
+  if ( ball.hit(p) ) ball.dy = -ball.dy;
+  if (ball.ypos==560) return;
+  requestAnimationFrame(animate);
+}
+
+</script>
+</html>

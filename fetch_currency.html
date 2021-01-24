@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='it'>
+<head>
+    <title>Currency of the day</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#frmCurrency').onsubmit = function() {
+                fetch('https://api.exchangeratesapi.io/latest?base=EUR')
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector('#jsondata').value = JSON.stringify(data);
+                    const currency = document.querySelector('#currency').value.toUpperCase();
+                    const rate = data.rates[currency];
+                    if (rate!==undefined) {
+                        document.querySelector('#result').innerHTML = `1 EUR is equal to ${rate.toFixed(3)} ${currency}.`;
+                    } else {
+                        document.querySelector('#result').innerHTML = 'Invalid currency.';
+                    }
+                })
+                .catch(error => {
+                    document.querySelector('#result').innerHTML = `Error: ${error}.`;
+                });
+                return false;
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <form id='frmCurrency'>
+        <input id='currency' placeholder='Currency' type='text' >
+        <input type='submit' value='Convert'>
+    </form>
+    <div id='result'></div>
+    <textarea id='jsondata' rows='8' cols='80'></textarea>
+</body>
+</html>

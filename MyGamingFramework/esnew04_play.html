@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <title>Play Game</title>
+  <link rel="stylesheet" type="text/css" href="myGaming.css" />
+  <script src="myGamingFramework.js"></script>
+</head>
+
+<body onload="init()">
+
+<div>
+<span id="msg"></span>
+<button id="ss" onclick="startStop();">Start</button>
+<button onclick="p.goLeft();">&larr;</button>
+<button onclick="p.goUp();">&uarr;</button>
+<button onclick="p.goDown();">&darr;</button>
+<button onclick="p.goRight();">&rarr;</button>
+<button onclick="gar.download();" title="scarica il canvas come file jpg">Download</button>
+<span id="pos"/>
+</div>
+
+
+</body>
+
+<script>
+var gar, p, blocks, ball, running=false;
+function init() {
+  gar = new GameArea(800, 600);
+  gar.display();
+  p = new GamePiece(80, 20, gar, "blue", 10);
+  p.draw(360,559);
+  blocks = new Set();
+  ball = new GameBall(10, gar);
+  ball.draw(400,300);
+  
+  document.addEventListener("keydown", driveRacket);
+
+  for (j=1; j<4; j++) {
+    for (i=1; i<12; i++) {
+		b = new GamePiece(30, 30, gar, "maroon");
+		b.draw( i*60, j*40 );
+		blocks.add( b );
+	}
+  }
+  requestAnimationFrame(animate);
+}
+    
+function driveRacket( e ) {
+  if (e.key=="ArrowRight") p.goRight();
+  else if (e.key=="ArrowLeft") p.goLeft();
+  else if (e.key=="ArrowUp") p.goUp();
+  else if (e.key=="ArrowDown") p.goDown();
+}
+
+function animate( currentTime ) {
+  if (!running) return;
+  ball.bounce();
+  if ( ball.hit(p) ) ball.dy = -ball.dy;
+  if ( hitWall(ball, blocks) ) { ball.dy = -ball.dy; }
+  document.getElementById("pos").innerHTML = "[" + blocks.size + "] - (" + ball.xpos + "," + ball.ypos + ")";
+  if (ball.ypos > gar.canvas.height-p.height-ball.radius) {
+      document.getElementById("msg").innerHTML = "Game Over";
+      return;
+  }
+  requestAnimationFrame(animate);
+}
+    
+function hitWall(palla, blocchi) {
+    for (b of blocchi) {
+        // alert(b);
+        if (palla.hit(b)) {
+            b.clear();
+            blocchi.delete(b);
+            return true;
+        }
+    }
+    return false;
+}
+    
+function startStop() {
+    running = ! running;
+    document.getElementById("ss").innerHTML = (running ? "Stop" : "Start");
+    if (running) {
+        requestAnimationFrame(animate);
+    }
+}
+
+</script>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+
+
+<head>
+  <title>Move blocks on the canvas</title>
+  <link rel="stylesheet" type="text/css" href="myGaming.css" />
+  <script src="myGamingFramework.js"></script>
+</head>
+
+<body onload="init()">
+
+<div>
+Sposta un blocco sulla tela
+<button onclick="p.goLeft();">&larr;</button>
+<button onclick="p.goUp();">&uarr;</button>
+<button onclick="p.goDown();">&darr;</button>
+<button onclick="p.goRight();">&rarr;</button>
+<button onclick="gar.download();">Download</button>
+</div>
+
+
+</body>
+
+<script>
+var gar, p;
+function init() {
+  gar = new GameArea(800, 600);
+  gar.display();
+  p = new GamePiece(80, 20, gar, "red", 10);
+  p.draw(360,579);
+  gar.canvas.addEventListener("click", makeBlock);
+}
+    
+function makeBlock(e) {
+    var newBlock = new GamePiece(30, 30, gar, "blue");
+    newBlock.draw(e.offsetX-15, e.offsetY-15);
+}
+
+</script>
+</html>
